@@ -23,11 +23,19 @@ class m130524_201442_init extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+			'access_token' => $this->integer()->notNull()->defaultValue(123),
         ], $tableOptions);
+
+		$this->createTable('{{%todolist}}', [
+			'id' => $this->primaryKey(),
+			'userid' => $this->integer()->notNull()->unique(),
+			'item' => $this->string()->notNull(),
+		], $tableOptions);
     }
 
     public function down()
     {
         $this->dropTable('{{%user}}');
+		$this->dropTable('{{%todolist}}');
     }
 }
