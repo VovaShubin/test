@@ -6,7 +6,8 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+	use yii\helpers\Url;
+	use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
@@ -37,8 +38,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        //['label' => 'Top10', 'url' => ['/books/top10']],
+        ['label' => 'Books', 'url' => ['/books']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -61,10 +62,23 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
+	    <div class="col-sm-4">
+		    <form method="get" action="<?= Url::to(['/books/top10']); ?>" class="pull-right">
+			    <div class="input-group">
+				    <input type="text" name="years" class="form-control" placeholder="Введите год топ 10 книг">
+				    <div class="input-group-btn">
+					    <button class="btn btn-default" type="submit">
+						    <span class="glyphicon glyphicon-search"></span>
+					    </button>
+				    </div>
+			    </div>
+		    </form>
+	    </div>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+
         <?= $content ?>
     </div>
 </div>

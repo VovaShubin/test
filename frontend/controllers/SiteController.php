@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Book;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -132,16 +133,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    /**
      * Signs user up.
      *
      * @return mixed
@@ -210,20 +201,4 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
-	/**
-	 * Add To-do list user .
-	 *
-	 * @return mixed
-	 */
-	public function actionAddTodo()
-	{
-		$model = new TodoForm();
-		if ($model->load(Yii::$app->request->post())) {
-		}
-
-		return $this->render('Todo', [
-			'model' => $model,
-		]);
-	}
 }

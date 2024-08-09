@@ -1,13 +1,13 @@
 <?php
 namespace api\controllers;
 
-use common\models\TodoList;
+use common\models\Book;
 use yii\rest\ActiveController;
 use yii\filters\auth\QueryParamAuth;
 
-class TodoController extends ActiveController
+class Books extends ActiveController
 {
-	public $modelClass = 'common\models\TodoList';
+	public $modelClass = 'common\models\Book';
 
 	public function behaviors()
 	{
@@ -26,6 +26,6 @@ class TodoController extends ActiveController
 	}
 	public function actionItem($userid)
 	{
-		return TodoList::findAll(['userid' => $userid]);
+		return Book::findAll(['userid' => $userid]);
 	}
 }
