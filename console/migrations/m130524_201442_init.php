@@ -26,16 +26,44 @@ class m130524_201442_init extends Migration
 			'access_token' => $this->integer()->notNull()->defaultValue(123),
         ], $tableOptions);
 
-		$this->createTable('{{%todolist}}', [
+		$this->createTable('{{%authors}}', [
 			'id' => $this->primaryKey(),
-			'userid' => $this->integer()->notNull()->unique(),
-			'item' => $this->string()->notNull(),
+			'author' => $this->string(),
 		], $tableOptions);
-    }
+
+		$this->createTable('{{%authors_books}}', [
+			'id' => $this->primaryKey(),
+			'author' => $this->integer(),
+			'books' => $this->integer(),
+			'PRIMARY KEY (`author`, `books`)'
+		], $tableOptions);
+
+		$this->createTable('{{%books}}', [
+			'id' => $this->primaryKey(),
+			'name' => $this->string(),
+			'years' => $this->string(),
+			'books' => $this->integer(),
+			'description' => $this->string(),
+			'isbn' => $this->string(),
+			'img' => $this->string(),
+		], $tableOptions);
+
+		$this->createTable('{{%follower}}', [
+			'id' => $this->primaryKey(),
+			'author' => $this->integer(),
+			'phone' => $this->string(),
+			'PRIMARY KEY (`author`, `phone`)'
+		], $tableOptions);
+
+	}
+
 
     public function down()
     {
         $this->dropTable('{{%user}}');
-		$this->dropTable('{{%todolist}}');
+		$this->dropTable('{{%authors}}');
+		$this->dropTable('{{%authors_books}}');
+		$this->dropTable('{{%books}}');
+		$this->dropTable('{{%follower}}');
     }
 }
