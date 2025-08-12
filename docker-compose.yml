@@ -1,9 +1,38 @@
-version: '2'
 services:
-  php:
-    image: yiisoftware/yii2-php:7.4-apache
-    volumes:
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      - ./:/app:delegated
+  # Простой веб-сервер для демонстрации PHP скрипта
+  web:
+    image: php:8.1-apache
+    container_name: bitrix24_demo
     ports:
-      - '8000:80'
+      - "8080:80"
+    volumes:
+      - ./scripts:/var/www/html
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=bitrix24
+      - MYSQL_USER=bitrix24
+      - MYSQL_PASSWORD=bitrix24_password
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    command: >
+      sh -c "a2enmod rewrite &&
+             docker-php-ext-install pdo_mysql &&
+             echo '<?php phpinfo(); ?>' > /var/www/html/info.php &&
+             echo '<?php echo \"PHP скрипт нормализации готов к работе!\"; ?>' > /var/www/html/index.php &&
+             apache2-foreground"
+
+  mysql:
+    image: mysql:8.0
+    container_name: bitrix24_mysql
+    environment:
+      - MYSQL_DATABASE=bitrix24
+      - MYSQL_USER=bitrix24
+      - MYSQL_PASSWORD=bitrix24_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
